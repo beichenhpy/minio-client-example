@@ -51,7 +51,7 @@ public class MinioController {
     }
 
 
-    @GetMapping("/download")
+    @GetMapping("/file/download")
     @SneakyThrows
     public void download(@RequestParam("bucket") String bucket,
                          @RequestParam("fileName") String fileName,
@@ -72,20 +72,23 @@ public class MinioController {
 
     /**
      * 默认bucket预览
-     * @param request 请求
+     *
+     * @param request  请求
      * @param response 响应
      */
-    @GetMapping("/default/preview/**")
-    public void defaultPreview(HttpServletRequest request,
-                           HttpServletResponse response){
-        preview(MinioConfig.DEFAULT_BUCKET, request, response);
+    @GetMapping("/{bucket}/file/preview/**")
+    public void defaultPreview(@PathVariable("bucket") String bucket,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+        preview(bucket, request, response);
     }
 
 
     /**
      * 预览 不同的Bucket需要新建不同的方法
-     * @param bucket 桶
-     * @param request 请求
+     *
+     * @param bucket   桶
+     * @param request  请求
      * @param response 响应
      */
     @SneakyThrows
