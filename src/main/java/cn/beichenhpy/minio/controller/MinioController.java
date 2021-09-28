@@ -76,7 +76,7 @@ public class MinioController {
      * @param request  请求
      * @param response 响应
      */
-    @GetMapping("/{bucket}/file/preview/**")
+    @GetMapping("/file/{bucket}/preview/**")
     public void defaultPreview(@PathVariable("bucket") String bucket,
                                HttpServletRequest request,
                                HttpServletResponse response) {
