@@ -70,30 +70,19 @@ public class MinioController {
         }
     }
 
-    /**
-     * 默认bucket预览
-     *
-     * @param request  请求
-     * @param response 响应
-     */
-    @GetMapping("/file/{bucket}/preview/**")
-    public void defaultPreview(@PathVariable("bucket") String bucket,
-                               HttpServletRequest request,
-                               HttpServletResponse response) {
-        preview(bucket, request, response);
-    }
 
 
     /**
-     * 预览 不同的Bucket需要新建不同的方法
+     * 预览
      *
      * @param bucket   桶
      * @param request  请求
      * @param response 响应
      */
+    @GetMapping("/file/{bucket}/preview/**")
     @SneakyThrows
     public void preview(
-            String bucket,
+            @PathVariable("bucket") String bucket,
             HttpServletRequest request,
             HttpServletResponse response) {
         String path = request.getServletPath();
