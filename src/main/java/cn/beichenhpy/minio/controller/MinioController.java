@@ -1,11 +1,10 @@
 package cn.beichenhpy.minio.controller;
 
-import cn.beichenhpy.minio.config.MinioConfig;
 import cn.beichenhpy.minio.config.MinioFile;
 import cn.beichenhpy.minio.service.MinioService;
+import cn.hutool.core.io.IoUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,7 +61,7 @@ public class MinioController {
         try (InputStream inputStream = minioService.getObject(bucket, fileName)) {
             //fix response的流不应该被关闭
             OutputStream outputStream = response.getOutputStream();
-            IOUtils.copy(inputStream, outputStream);
+            IoUtil.copy(inputStream, outputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +94,7 @@ public class MinioController {
         try (InputStream inputStream = minioService.getObject(bucket, file)) {
             //fix response的流不应该被关闭
             OutputStream outputStream = response.getOutputStream();
-            IOUtils.copy(inputStream, outputStream);
+            IoUtil.copy(inputStream, outputStream);
         } catch (Exception e) {
             log.error("[minio]:error:",e);
             throw new Exception(e.getMessage());
