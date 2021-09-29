@@ -60,11 +60,9 @@ public class MinioController {
         minioService.getObjectInfo(bucket, fileName);
         //get object
         try (InputStream inputStream = minioService.getObject(bucket, fileName)) {
-            try (OutputStream outputStream = response.getOutputStream()) {
-                IOUtils.copy(inputStream, outputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            //fix response的流不应该被关闭
+            OutputStream outputStream = response.getOutputStream();
+            IOUtils.copy(inputStream, outputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,15 +89,16 @@ public class MinioController {
         try {
             minioService.getObjectInfo(bucket, file);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[minio]:error:",e);
             throw new Exception(e.getMessage());
         }
         try (InputStream inputStream = minioService.getObject(bucket, file)) {
-            try (OutputStream outputStream = response.getOutputStream()) {
-                IOUtils.copy(inputStream, outputStream);
-            }
+            //fix response的流不应该被关闭
+            OutputStream outputStream = response.getOutputStream();
+            IOUtils.copy(inputStream, outputStream);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[minio]:error:",e);
+            throw new Exception(e.getMessage());
         }
     }
 }
